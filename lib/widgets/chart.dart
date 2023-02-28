@@ -24,7 +24,7 @@ class Chart extends StatelessWidget {
         }
       }
       return {"day": DateFormat.E().format(weekDay), "amount": totalSum};
-    });
+    }).reversed.toList();
   }
 
   //getter for the fractionall sized box amount percentage
@@ -36,11 +36,11 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(recentTransactionValue);
     return Card(
+      margin: const EdgeInsets.all(15),
       elevation: 6,
       child: Container(
-        margin: const EdgeInsets.all(15),
+        padding: const EdgeInsets.all(10),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: recentTransactionValue.map((data) {

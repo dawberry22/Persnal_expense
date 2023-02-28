@@ -10,9 +10,14 @@ void main() {
     theme: ThemeData(
       fontFamily: "Quicksand",
       textTheme: ThemeData.light().textTheme.copyWith(
-              bodyMedium: const TextStyle(
+          bodyMedium: const TextStyle(
             fontFamily: "Quicksand",
             fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+          bodySmall: const TextStyle(
+            fontFamily: "Quicksand",
+            fontSize: 17,
             fontWeight: FontWeight.bold,
           )),
       appBarTheme: const AppBarTheme(
@@ -23,7 +28,7 @@ void main() {
         ),
       ),
       primarySwatch: Colors.purple,
-      accentColor: Colors.red,
+      colorScheme: ColorScheme.fromSwatch(accentColor: Colors.red),
     ),
     debugShowCheckedModeBanner: false,
     home: MyApp(),

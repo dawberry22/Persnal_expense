@@ -50,6 +50,34 @@ class _NewTransactionState extends State<NewTransaction> {
           //add transaction with submit button
           onSubmitted: (_) => submite(),
         ),
+        Container(
+          height: 80,
+          margin: const EdgeInsets.symmetric(horizontal: 5),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(
+              "No Date choosen",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(color: Theme.of(context).primaryColorDark),
+            ),
+            TextButton(
+                onPressed: () {},
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Colors.grey, blurRadius: 3, spreadRadius: 0),
+                      ]),
+                  height: 40,
+                  width: 100,
+                  child: Center(child: Text("Pick Date")),
+                ))
+          ]),
+        ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.purple,
