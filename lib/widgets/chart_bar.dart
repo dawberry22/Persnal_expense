@@ -24,26 +24,29 @@ class ChartBar extends StatelessWidget {
           margin: const EdgeInsets.symmetric(vertical: 5),
           height: 60,
           width: 10,
-          child: Stack(children: [
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            FractionallySizedBox(
-              heightFactor: amountPct,
-              child: Container(
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1,
+                  ),
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
-            )
-          ]),
+              FractionallySizedBox(
+                heightFactor: amountPct,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
         Text("${day.substring(0, 1)}")
       ],

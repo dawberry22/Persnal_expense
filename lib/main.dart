@@ -17,7 +17,7 @@ void main() {
           ),
           bodySmall: const TextStyle(
             fontFamily: "Quicksand",
-            fontSize: 17,
+            fontSize: 15,
             fontWeight: FontWeight.bold,
           )),
       appBarTheme: const AppBarTheme(
@@ -28,7 +28,10 @@ void main() {
         ),
       ),
       primarySwatch: Colors.purple,
-      colorScheme: ColorScheme.fromSwatch(accentColor: Colors.red),
+      colorScheme: ColorScheme.fromSwatch(
+        accentColor: Colors.red,
+        primarySwatch: Colors.purple,
+      ),
     ),
     debugShowCheckedModeBanner: false,
     home: MyApp(),
@@ -44,29 +47,29 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final List<Transaction> transction = [
-    Transaction(
-      id: "1",
-      title: "Nike Shoe",
-      cost: 99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: '2',
-      title: "Bike",
-      cost: 76,
-      date: DateTime.now(),
-    ),
+    // Transaction(
+    //   id: "1",
+    //   title: "Nike Shoe",
+    //   cost: 99,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: '2',
+    //   title: "Bike",
+    //   cost: 76,
+    //   date: DateTime.now(),
+    // ),
   ];
   // _addTransaction: adds new transaction to the list item
   // @txtile: transaction title
   // @txamount: transaction amount
   // Return: None
-  void _addTransaction(String txtitle, double txamount) {
+  void _addTransaction(String txtitle, double txamount, DateTime date) {
     final newTx = Transaction(
         id: DateTime.now().toString(),
         title: txtitle,
         cost: txamount,
-        date: DateTime.now());
+        date: date);
     // to update the state when new list item is added
     setState(() {
       transction.add(newTx);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addtx;
@@ -10,19 +11,33 @@ class NewTransaction extends StatefulWidget {
 }
 
 class _NewTransactionState extends State<NewTransaction> {
-  final titleController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
 
-  final amountController = TextEditingController();
+  var _pickedDate;
+
+  void _showdate() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2023),
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
+      setState(() {
+        _pickedDate = pickedDate;
+      });
+    });
+  }
 
   final _formKey = GlobalKey<FormState>();
 
   void submite() {
-    final title = titleController.text;
-    final amount = double.parse(amountController.text);
+    final title = _titleController.text;
+    final amount = double.parse(_amountController.text);
 
     if (title.isEmpty || amount <= 0) return;
 
-    widget.addtx(title, amount);
+    widget.addtx(title, amount, _pickedDate);
     Navigator.of(context).pop();
   }
 
@@ -34,7 +49,7 @@ class _NewTransactionState extends State<NewTransaction> {
       padding: const EdgeInsets.all(10),
       child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
         TextField(
-          controller: titleController,
+          controller: _titleController,
           decoration: const InputDecoration(
             labelText: "Title",
           ),
@@ -42,7 +57,7 @@ class _NewTransactionState extends State<NewTransaction> {
           onSubmitted: (_) => submite(),
         ),
         TextField(
-          controller: amountController,
+          controller: _amountController,
           decoration: const InputDecoration(
             labelText: "Amount",
           ),
@@ -53,17 +68,20 @@ class _NewTransactionState extends State<NewTransaction> {
         Container(
           height: 80,
           margin: const EdgeInsets.symmetric(horizontal: 5),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text(
-              "No Date choosen",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: Theme.of(context).primaryColorDark),
+          child: Row(children: [
+            Expanded(
+              child: Text(
+                _pickedDate == null
+                    ? "No Date choosen"
+                    : DateFormat.yMd().format(_pickedDate),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: Theme.of(context).primaryColorDark),
+              ),
             ),
             TextButton(
-                onPressed: () {},
+                onPressed: _showdate,
                 child: Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -80,8 +98,8 @@ class _NewTransactionState extends State<NewTransaction> {
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.purple,
-          ),
+              // backgroundColor: Colors.purple,
+              ),
           onPressed: submite,
           child: const Text("Add transaction"),
         )
