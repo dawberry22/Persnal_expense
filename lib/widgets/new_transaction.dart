@@ -32,10 +32,11 @@ class _NewTransactionState extends State<NewTransaction> {
   final _formKey = GlobalKey<FormState>();
 
   void submite() {
+    if (_amountController.text.isEmpty) return;
     final title = _titleController.text;
     final amount = double.parse(_amountController.text);
 
-    if (title.isEmpty || amount <= 0) return;
+    if (title.isEmpty || amount <= 0 || _pickedDate == null) return;
 
     widget.addtx(title, amount, _pickedDate);
     Navigator.of(context).pop();

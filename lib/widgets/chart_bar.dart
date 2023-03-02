@@ -12,44 +12,50 @@ class ChartBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: 25,
-          child: FittedBox(
-            child: Text("\$${amount.toStringAsFixed(0)}"),
+    return LayoutBuilder(
+      builder: (ctx, constraint) => Column(
+        children: [
+          Container(
+            height: constraint.maxHeight * 0.15,
+            child: FittedBox(
+              child: Text("\$${amount.toStringAsFixed(0)}"),
+            ),
           ),
-        ),
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 5),
-          height: 60,
-          width: 10,
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              FractionallySizedBox(
-                heightFactor: amountPct,
-                child: Container(
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 5),
+            height: constraint.maxHeight * 0.6,
+            width: 10,
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1,
+                    ),
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-              )
-            ],
+                FractionallySizedBox(
+                  heightFactor: amountPct,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-        Text("${day.substring(0, 1)}")
-      ],
+          SizedBox(
+              height: constraint.maxHeight * 0.15,
+              child: FittedBox(
+                child: Text("${day.substring(0, 1)}"),
+              ))
+        ],
+      ),
     );
   }
 }

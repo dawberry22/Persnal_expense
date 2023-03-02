@@ -40,7 +40,7 @@ class Chart extends StatelessWidget {
       margin: const EdgeInsets.all(15),
       elevation: 6,
       child: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(5),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: recentTransactionValue.map((data) {
