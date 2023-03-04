@@ -1,14 +1,11 @@
 import "package:flutter/material.dart";
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 import './models/transaction.dart';
 import './widgets/new_transaction.dart';
 import './widgets/transaction_list.dart';
 import './widgets/chart.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(MaterialApp(
     title: "enpance app",
     theme: ThemeData(
@@ -96,6 +93,7 @@ class _MyAppState extends State<MyApp> {
         });
   }
 
+  bool _showChart = false;
   void _deleteTransaction(String id) {
     setState(() {
       transction.removeWhere((element) => element.id == id);
@@ -104,13 +102,31 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final appbar = AppBar(
       title: const Text("Personal Expance"),
       actions: [
-        IconButton(
-          onPressed: () => _startAddtx(context),
-          icon: const Icon(Icons.add),
-        )
+        // IconButton(
+        //   onPressed: () => _startAddtx(context),
+        //   icon: const Icon(Icons.add),
+        // ),
+        if (isLandscape)
+          Row(
+            children: [
+              const Text(
+                "Show Chart",
+                style: TextStyle(fontSize: 10),
+              ),
+              Switch(
+                  value: _showChart,
+                  onChanged: (val) {
+                    setState(() {
+                      _showChart = val;
+                    });
+                  }),
+            ],
+          ),
       ],
     );
 
@@ -118,27 +134,39 @@ class _MyAppState extends State<MyApp> {
         appbar.preferredSize.height -
         MediaQuery.of(context).padding.top;
 
+    final txList = SizedBox(
+      width: double.infinity,
+      height: isLandscape ? heightSize : heightSize * 0.6,
+      child: TransactionList(
+        transaction: transction,
+        deleteTx: _deleteTransaction,
+      ),
+    );
+    final txChart = SizedBox(
+      height: isLandscape ? heightSize * 0.8 : heightSize * 0.4,
+      child: Chart(transction),
+    );
+
     return Scaffold(
       appBar: appbar,
       body: SingleChildScrollView(
-        child: Column(children: [
-          SizedBox(
-            height: heightSize * 0.4,
-            child: Chart(transction),
-          ),
-          // end of Chart
-          //
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (!isLandscape) txChart,
+            if (!isLandscape) txList,
+            if (isLandscape)
+              _showChart
+                  ? txChart
+                  :
+                  // end of Chart
+                  //
 
-          // Transactions list
-          SizedBox(
-            height: heightSize * 0.6,
-            child: TransactionList(
-              transaction: transction,
-              deleteTx: _deleteTransaction,
-            ),
-          ),
-          //
-        ]),
+                  // Transactions list
+                  txList
+            //
+          ],
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
