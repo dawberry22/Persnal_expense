@@ -93,7 +93,7 @@ class _NewTransactionState extends State<NewTransaction> {
                       ]),
                   height: 40,
                   width: 100,
-                  child: Center(child: Text("Pick Date")),
+                  child: const Center(child: Text("Pick Date")),
                 ))
           ]),
         ),

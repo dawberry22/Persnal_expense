@@ -1,11 +1,13 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/transaction.dart';
+import './transaction_item.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transaction;
   final Function deleteTx;
-  TransactionList(
+  const TransactionList(
       {super.key, required this.transaction, required this.deleteTx});
 
   @override
@@ -26,35 +28,14 @@ class TransactionList extends StatelessWidget {
               ],
             );
           })
-        : ListView.builder(
-            itemCount: transaction.length,
-            itemBuilder: (ctx, index) {
-              return Card(
-                elevation: 6,
-                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 30,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FittedBox(
-                          child: Text("\$${transaction[index].cost}")),
-                    ),
-                  ),
-                  title: Text(transaction[index].title,
-                      style: Theme.of(context).textTheme.bodyMedium),
-                  subtitle: Text(
-                    DateFormat.yMMMd().format(transaction[index].date),
-                    style: const TextStyle(fontSize: 14),
-                  ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () => deleteTx(transaction[index].id),
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-                ),
-              );
-            },
+        : ListView(
+            children: transaction
+                .map((tx) => TransactionItem(
+                      key: ValueKey(tx.id),
+                      deleteTx: deleteTx,
+                      transaction: tx,
+                    ))
+                .toList(),
           );
   }
 }
